@@ -36,7 +36,7 @@ class Child extends React.Component {
     };
     handleSelect = (item) => {
         this.setselectedItem(item);
-        this.setItemList((prevList) => [...prevList, item]);
+        this.setItemList([...this.state.itemList,item])
       };
 
     handleChange = (e) => {
@@ -63,8 +63,9 @@ class Child extends React.Component {
     }
 
     sendDataToParent = () => {
+        // console.log(this.state.itemList);
         const { id, onChildData } = this.props;
-        const { data } = this.state.itemList;
+        const data = this.state.itemList;
     
         onChildData(id, data);
       };
@@ -93,7 +94,7 @@ class Child extends React.Component {
               onChange={this.handleChange}
               onSelect={this.handleSelect}
             />
-            <p>{this.selectedItem?.name}</p>
+            <p>{this.state.selectedItem?.name}</p>
             {/* <p>Selected Items List:</p>
             <ul>
               {this.itemList.map((item) => (
@@ -101,9 +102,9 @@ class Child extends React.Component {
               ))}
             </ul> */}
 
-            {this.itemList && this.itemList.length > 0 ? (
+            {this.state.itemList && this.state.itemList.length > 0 ? (
           <ul>
-            {this.itemList.map((item) => (
+            {this.state.itemList.map((item) => (
               <li key={item.id}>{item.name}</li>
             ))}
           </ul>

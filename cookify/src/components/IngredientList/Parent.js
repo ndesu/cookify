@@ -10,25 +10,33 @@ class Parent extends React.Component{
         };
     }
 
-    handleChildData = (id, data) => {
-        this.setState(prevState=> ({
-            dataList:[...prevState.dataList, {id, data}],
-        }))
+    setData = (newData) => {
+        this.setState({
+            dataList:newData
+        })
 
+    }
+    handleChildData = (id, data) => {
+        // this.setState(prevState=> ({
+        //     dataList:[...prevState.dataList, {id, data}],
+        // }))
+        this.setData([...this.state.dataList, data].flat())
+        console.log("Yurrr gang gang this is the data list")
+        console.log(this.state.dataList)
     };
 
     render() {
       return (
         <div >
           {/* <Child ref={this.ChildElement} /> */}
-            <Child id={1} 
+            <Child
                 onChildData={this.handleChildData}
                 type="vegetables"        
             />
-            <Child id={2} onChildData={this.handleChildData}
+            <Child onChildData={this.handleChildData}
                 type="seasonings"
             />
-            <Child id={3} onChildData={this.handleChildData}
+            <Child onChildData={this.handleChildData}
                 type="meats"
             />
             <Child id={4} onChildData={this.handleChildData}
@@ -36,7 +44,7 @@ class Parent extends React.Component{
             />
             <ul>
                 {this.state.dataList.map(item => (
-                    <li key={item.id}>{item.data}</li>
+                    <li key={item}>{item.name}</li>
                 ))}
             </ul>
 
