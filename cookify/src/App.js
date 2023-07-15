@@ -5,6 +5,9 @@ import axios from "axios";
 
 import React, { useEffect, useState } from "react";
 import Parent from './components/IngredientList/Parent';
+import IngredientList from './components/IngredientList';
+import IngredComp from './components/IngredComponent';
+import ParentComponent from './components/ParentComponent';
 
 function App() {
 
@@ -37,6 +40,9 @@ function App() {
   return (
     <div className="App">
       <Navbar />
+      
+      <ParentComponent />
+
       <Ingredients
         type="vegetables" 
       />

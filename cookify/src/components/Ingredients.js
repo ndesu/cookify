@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import LiveSearch from "./LiveSearch";
-// import grains from "./IngredientList/Grains";
-// import meats from "./IngredientList/Meats";
-// import seasonings from "./IngredientList/Seasonings";
 import vegetables from "./IngredientList/Vegetables";
 import meats from "./IngredientList/Meats";
 import seasonings from "./IngredientList/Seasonings";
