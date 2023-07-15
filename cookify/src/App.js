@@ -37,18 +37,8 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Ingredients
-        type="vegetables" 
-      />
-      <Ingredients
-        type="seasonings" 
-      />
-      <Ingredients
-        type="meats" 
-      />
-      <Ingredients
-        type="grains" 
-      />
+
+      <Parent></Parent>
       <button onClick={fetchData}>Fetch Data</button>
       {data ? (
         <ul>
