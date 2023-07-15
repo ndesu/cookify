@@ -40,21 +40,8 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      
-      <ParentComponent />
 
-      <Ingredients
-        type="vegetables" 
-      />
-      <Ingredients
-        type="seasonings" 
-      />
-      <Ingredients
-        type="meats" 
-      />
-      <Ingredients
-        type="grains" 
-      />
+      <Parent></Parent>
       <button onClick={fetchData}>Fetch Data</button>
       {data ? (
         <ul>
