@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import LiveSearch from "../LiveSearch";
-// import grains from "./IngredientList/Grains";
-// import meats from "./IngredientList/Meats";
-// import seasonings from "./IngredientList/Seasonings";
-import vegetables from "./Vegetables";
-import meats from "./Meats";
-import seasonings from "./Seasonings";
-import grains from "./Grains";
+import LiveSearch from "./LiveSearch";
+import vegetables from "./IngredientList/Vegetables";
+import meats from "./IngredientList/Meats";
+import seasonings from "./IngredientList/Seasonings";
+import grains from "./IngredientList/Grains";
 
-class Child extends React.Component {
+class IngredientComp extends React.Component {
     constructor(props){
         super(props);
     this.state = {
@@ -72,19 +69,6 @@ class Child extends React.Component {
 
     render(){
         return (
-            // <div>
-            //   <LiveSearch
-            //     results={this.results}
-            //     value={this.selectedItem?.name}
-            //     renderItem={(item) => <p>{item.name}</p>}
-            //     onChange={this.handleChange}
-            //     onSelect={this.handleSelect}
-            //   />
-            //   <p>{this.selectedItem?.name}</p>
-            //   <p>Selected Items List:</p>
-            //   {/* Missing from Ingredients */}
-            //   <button onClick={this.sendDataToParent}>Send Data</button>
-            // </div>
             <div>
             <h3>{this.props.type}</h3>
             <LiveSearch
@@ -94,13 +78,6 @@ class Child extends React.Component {
               onChange={this.handleChange}
               onSelect={this.handleSelect}
             />
-            <p>{this.state.selectedItem?.name}</p>
-            {/* <p>Selected Items List:</p>
-            <ul>
-              {this.itemList.map((item) => (
-                <li key={item.id}>{item.name}</li>
-              ))}
-            </ul> */}
 
             {this.state.itemList && this.state.itemList.length > 0 ? (
           <ul>
@@ -111,11 +88,11 @@ class Child extends React.Component {
         ) : (
           <p>No items selected.</p>
         )}
-            <button onClick={this.sendDataToParent}>Send Data</button>  
+            <button onClick={this.sendDataToParent}>Add Ingredient</button>  
 
           </div>
           );
     }
 }
 
-export default Child
+export default IngredientComp

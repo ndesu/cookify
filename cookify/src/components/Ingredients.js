@@ -1,66 +1,114 @@
-import React, { useState } from "react";
-import LiveSearch from "./LiveSearch";
-// import grains from "./IngredientList/Grains";
-// import meats from "./IngredientList/Meats";
-// import seasonings from "./IngredientList/Seasonings";
-import vegetables from "./IngredientList/Vegetables";
-import meats from "./IngredientList/Meats";
-import seasonings from "./IngredientList/Seasonings";
-import grains from "./IngredientList/Grains";
+import React from "react";
+import IngredientComp from "./IngredientComp";
+import axios from "axios";
 
-const Ingredients = (props) => {
-  const [results, setResults] = useState();
-  const [selectedItem, setselectedItem] = useState();
-  const [itemList, setitemList] = useState([]);
+class Ingredients extends React.Component{
+    constructor(props){
+        super(props);
+        this.Ingredients = React.createRef();
 
-  const handleChange = (e) => {
-    const { target } = e;
-    var ingredientType = "";
+        this.state = {
+            dataList: [],
+            retrievedData: [],
+        };
+        this.options = {
+            method: 'GET',
+            url: process.env.REACT_APP_RAPIDAPIURL,
+            params: {
+                ingredients: '',
+                number: '5',
+                ignorePantry: 'true',
+                ranking: '1'
+            },
+            headers: {
+            'X-RapidAPI-Key' : process.env.REACT_APP_RAPIDAPIKEY,
+            'X-RapidAPI-Host' : process.env.REACT_APP_RAPIDAPIHOST
+            }
+        };
+    }
 
-    if (!target.value.trim()) return setResults([]);
+    setData = (newData) => {
+        this.setState({
+            dataList:newData
+        })
 
-    if (props.type === "vegetables") {
-      ingredientType = vegetables;
-    } else if (props.type === "meats") {
-      ingredientType = meats;
-    } else if (props.type === "grains") {
-      ingredientType = grains;
-    } else if (props.type === "seasonings") {
-      ingredientType = seasonings;
+    }
+
+    setResponseData = (apiData) => {
+        this.setState({
+            retrievedData:apiData
+        })
+    }
+
+    createApiList = (dataList) => {
+        var arr = []
+        var ingredients = ''
+        for (let i = 0; i < dataList.length; i++) {
+            arr.push(dataList[i].name.toString())
+        }
+        this.options.params.ingredients = ingredients.concat(arr)
+    }
+
+    handleChildData = (id, data) => {
+        // this.setState(prevState=> ({
+        //     dataList:[...prevState.dataList, {id, data}],
+        // }))
+        this.setData([...this.state.dataList, data].flat())
+        this.createApiList(this.state.dataList)
     };
 
-    const filteredValue = ingredientType.filter((ingredientType) => 
-    ingredientType.name.toLowerCase().startsWith(target.value)
-    );
-  
-    setResults(filteredValue);
-  };
 
-  const handleSelect = (item) => {
-    setselectedItem(item);
-    setitemList((prevList) => [...prevList, item]);
-  };
+    fetchData = async () => {
+        try {
+            const response = await axios.request(this.options);
+            this.setResponseData(response.data)
+            console.log(response.data);
+        } catch (error) {
+        console.error(error);
+        }
+    };
 
-  return (
-    <div>
-      <h3>{props.type}</h3>
-      <LiveSearch
-        results={results}
-        value={selectedItem?.name}
-        renderItem={(item) => <p>{item.name}</p>}
-        onChange={handleChange}
-        onSelect={handleSelect}
-      />
-      <p>{selectedItem?.name}</p>
-      <p>Selected Items List:</p>
-      <ul>
-        {itemList.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
-    </div>
+    
+    render() {
+      return (
+        <div >
+          {/* <Child ref={this.ChildElement} /> */}
+            <IngredientComp
+                onChildData={this.handleChildData}
+                type="vegetables"        
+            />
+            <IngredientComp 
+                onChildData={this.handleChildData}
+                type="seasonings"
+            />
+            <IngredientComp 
+                onChildData={this.handleChildData}
+                type="meats"
+            />
+            <IngredientComp 
+                onChildData={this.handleChildData}
+                type="grains"
+            />
+            <ul>
+                {this.state.dataList.map(item => (
+                    <li key={item}>{item.name}</li>
+                ))}
+            </ul>
+            <button onClick={this.fetchData}>Fetch Data</button>
+            {this.state.retrievedData ? (
+                <ul>
+                {this.state.retrievedData.map((item) => (
+                    <li key={item.id}>{item.title} {item.id}</li>
 
-  );
-};
+                ))}
+                </ul>
+            ) : (
+                <p>No data available.</p>
+            )}
 
-export default Ingredients;
+          {/* <button onClick={this.handleClick}>Show real name</button> */}
+        </div>
+      );
+    }
+  }
+  export default Ingredients
