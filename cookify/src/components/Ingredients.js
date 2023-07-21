@@ -2,6 +2,14 @@ import React from "react";
 import IngredientComp from "./IngredientComp";
 import axios from "axios";
 
+class RecipeInfo {
+    constructor(id,pictureURL,link) {
+        this.id = id;
+        this.pictureURL = pictureURL;
+        this.link = link;
+    }
+}
+
 class Ingredients extends React.Component{
     constructor(props){
         super(props);
@@ -10,13 +18,15 @@ class Ingredients extends React.Component{
         this.state = {
             dataList: [],
             retrievedData: [],
+            recipeCards: []
         };
-        this.options = {
+
+        this.optionsIngredients = {
             method: 'GET',
-            url: process.env.REACT_APP_RAPIDAPIURL,
+            url: process.env.REACT_APP_RAPIDAPI_FINDBYING,
             params: {
                 ingredients: '',
-                number: '5',
+                number: '2',
                 ignorePantry: 'true',
                 ranking: '1'
             },
@@ -33,6 +43,11 @@ class Ingredients extends React.Component{
         })
 
     }
+    setRecipeCards = (recipeCards) => {
+        this.setState({
+            recipeCards:recipeCards
+        })
+    }
 
     setResponseData = (apiData) => {
         this.setState({
@@ -46,13 +61,10 @@ class Ingredients extends React.Component{
         for (let i = 0; i < dataList.length; i++) {
             arr.push(dataList[i].name.toString())
         }
-        this.options.params.ingredients = ingredients.concat(arr)
+        this.optionsIngredients.params.ingredients = ingredients.concat(arr)
     }
 
     handleChildData = (id, data) => {
-        // this.setState(prevState=> ({
-        //     dataList:[...prevState.dataList, {id, data}],
-        // }))
         this.setData([...this.state.dataList, data].flat())
         this.createApiList(this.state.dataList)
     };
@@ -60,19 +72,35 @@ class Ingredients extends React.Component{
 
     fetchData = async () => {
         try {
-            const response = await axios.request(this.options);
+            const response = await axios.request(this.optionsIngredients);
             this.setResponseData(response.data)
-            console.log(response.data);
+
+            var arr = []
+            for(let i = 0; i < response.data.length; i++) {
+                const options = {
+                    method: 'GET',
+                    url: process.env.REACT_APP_RAPIDAPI_FINDBYID + response.data[i].id + '/information',
+                    headers: {
+                        'X-RapidAPI-Key' : process.env.REACT_APP_RAPIDAPIKEY,
+                        'X-RapidAPI-Host' : process.env.REACT_APP_RAPIDAPIHOST
+                    }
+                };
+                const response2 = await axios.request(options);
+                var recCard = new RecipeInfo(response.data[i].id, response2.data.image, response2.data.sourceUrl);
+                arr.push(recCard);
+            }
+            this.setRecipeCards(arr)
         } catch (error) {
         console.error(error);
         }
+
     };
 
     
     render() {
       return (
         <div >
-          {/* <Child ref={this.ChildElement} /> */}
+
             <IngredientComp
                 onChildData={this.handleChildData}
                 type="vegetables"        
@@ -98,7 +126,7 @@ class Ingredients extends React.Component{
             {this.state.retrievedData ? (
                 <ul>
                 {this.state.retrievedData.map((item) => (
-                    <li key={item.id}>{item.title} {item.id}</li>
+                    <li key={item.id}>{item.title}</li>
 
                 ))}
                 </ul>
@@ -106,7 +134,16 @@ class Ingredients extends React.Component{
                 <p>No data available.</p>
             )}
 
-          {/* <button onClick={this.handleClick}>Show real name</button> */}
+            <p>RECIPE CARDS:</p>
+
+            {this.state.recipeCards.map((recipe) => (
+                <div key={recipe.id}>
+                <h2>Recipe ID: {recipe.id}</h2>
+                <img src={recipe.pictureURL} alt={`Recipe ${recipe.id}`} />
+                <a href={recipe.link}>Link: {recipe.link}</a>
+                </div>
+            ))}
+
         </div>
       );
     }
