@@ -4,8 +4,6 @@ import { Inventory } from "./components/Inventory";
 
 export default function Home() {
   const queryURLWithEnv = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.SPOONACULAR_API_KEY}&ranking=2`
-
-  // console.log([queryURLWithEnv])
   
   return (
     <div className={styles.page}>
