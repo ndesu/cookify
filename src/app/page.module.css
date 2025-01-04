@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 .page {
   background-color: rgb(254, 255, 255);
@@ -16,26 +16,6 @@
   padding: 20px;
 }
 
-.header nav ul {
-  display: flex;
-  gap: 40px;
-  justify-content: flex-end;
-  margin: 0 auto;
-}
-
-.header nav ul li {
-  list-style-type: none;
-}
-
-.header nav ul li a {
-  color: white;
-  font-size: larger;
-  font-weight: 800;
-  -webkit-text-stroke-width: 0.5px;
-  -webkit-text-stroke-color: black;
-  word-wrap: 'break-word';
-}
-
 .title {
   padding: 30px;
   width: 100%;
@@ -48,10 +28,10 @@
 }
 
 .top {
-  width: 100%;
-  padding: 30px;
   display: flex;
   justify-content: center;
+  padding: 30px;
+  width: 100%;
 }
 
 .addIngredients {
@@ -93,17 +73,17 @@
 }
 
 .ingredientGrid {
+  color: black;
   display: grid;
   font-size: 24px;
   font-weight: 800;
-  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
+  grid-template-columns: repeat(5, 1fr);
   list-style-type: none;
   min-height: 400px;
-  color: black;
   padding: 16px;
   text-align: center;
-  width: 90%
+  width: 90%;
 }
 
 .ingredientGrid li {
@@ -113,34 +93,31 @@
 .ingredientGrid li:hover {
   background-color: rgb(232, 181, 183);
   border-radius: 10px;
+  cursor: pointer;
   max-height: 40px;
-  cursor: pointer
 }
-
-
 
 .recipeContainer {
   align-items: center;
   background-color: white;
   display: flex;
-  /* position: absolute; */
-  z-index: 20;
+  justify-content: center;
   min-height: 80%;
   min-width: 70%;
-  justify-content: center;
+  z-index: 20;
 }
 
 .recipeCard {
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  height: 600px;
-  margin: 50px;
+  align-items: center;
   background-color: white;
   border: solid 5px black;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  margin: 50px;
   padding: 20px;
-  align-items: center;
+  width: 400px;
 }
 
 .inventoryContainer {
@@ -151,9 +128,9 @@
 .recipeTitle {
   color: black;
   font-weight: 700;
+  height: 100px;
   margin: 10px 0;
   text-align: center;
-  height: 100px;
 }
 
 .neededIngredient {
@@ -165,21 +142,22 @@
 
 .recipeSubtitle {
   color: black;
+  font-size: 20px;
   font-style: italic;
   font-weight: 700;
-  font-size: 20px;
   margin: 10px 0;
   text-align: center;
 }
 
 .image {
+  border: double 5px rgba(183, 138, 41, 1);
   border-radius: 20px;
-  width: 300px;
   margin: 20px 0;
-  border: double 5px rgba(183, 138, 41, 1)
+  width: 300px;
 }
 
 .mainTitle {
+  color: white;
   font-size: 36px;
   text-align: center;
 }
